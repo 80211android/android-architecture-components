@@ -22,6 +22,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import com.example.android.observability.Injection
 import com.example.android.observability.R
+import com.example.android.observability.persistence.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -34,7 +35,8 @@ class UserActivity : AppCompatActivity() {
 
     private lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: UserViewModel by viewModels()
+    //    private val viewModel: UserViewModel by viewModels()
+    lateinit var viewModel: UserViewModel
 
     private val disposable = CompositeDisposable()
 
@@ -42,7 +44,9 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-        viewModelFactory = Injection.provideViewModelFactory(this)
+//        viewModelFactory = Injection.provideViewModelFactory(this)
+        val myDataSource = Injection.provideUserDataSource(this)
+        viewModel = UserViewModel(myDataSource)
         update_user_button.setOnClickListener { updateUserName() }
     }
 
